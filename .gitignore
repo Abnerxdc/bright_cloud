@@ -1,0 +1,10 @@
+*.log
+*.temp
+.idea
+.git
+.idea/*
+.git/*
+target/*
+.*
+!/.gitignore
+!/*/.gitignore

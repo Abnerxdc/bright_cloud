@@ -1,0 +1,21 @@
+#端口号.
+server:
+  port: 8081
+  #关闭自我保护.
+  #应用名称.
+spring:
+  application:
+    name: cloud-provider
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
+    healthcheck:
+      # 开启健康检查 （需要spring-boot-starter-actuator依赖）
+      enabled: true
+  instance:
+    preferIpAddress: false
+    # 续约更新时间间隔（默认30秒）
+    lease-renewal-interval-in-seconds: 1
+    # 续约到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 2

@@ -1,0 +1,58 @@
+#应用名称.
+spring:
+  application:
+    name: cloud-zuul
+
+#应用端口号.
+server:
+  port: 8071
+#Eureka Server服务器地址.
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
+    healthcheck:
+      # 开启健康检查 （需要spring-boot-starter-actuator依赖）
+      enabled: true
+  instance:
+    preferIpAddress: false
+    # 续约更新时间间隔（默认30秒）
+    lease-renewal-interval-in-seconds: 1
+    # 续约到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 2
+
+#通过指定URL配置了Zuul路由，则配置以下两个超时时间.
+#zuul.host.connect-timeout-millis=5000
+#zuul.host.socket-timeout-millis=5000
+
+#zuul使用服务发现的方式[通过serviceId路由服务]，得配置ribbon的超时时间.
+#官网文档已说明：http://cloud.spring.io/spring-cloud-netflix/single/spring-cloud-netflix.html#_zuul_timeouts
+#ribbon请求处理的超时时间.
+ribbon:
+  ReadTimeout: 5000
+  ConnectionTimeout: 5000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  #所有请求都支持重试 <post、get等>
+  OkToRetryOnAllOperations: true
+  ServerListRefreshInterval: 1000
+  okhttp:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+
+#只要访问以/api/开头的多层目录都可以路由到服务名为cloud-provider的服务上.
+zuul:
+  routes:
+    cloud-provider: /api/**
+
+#cloud-provider:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.AvailabilityFilteringRule
+
